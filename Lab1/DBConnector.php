@@ -13,7 +13,7 @@ class DBConnector
         $this->conn = mysqli_connect(DB_SERVER, DB_USER, DB_PASS, DB_NAME) or die('couldnt connect' . mysqli_connect_errno());
 
     }
-    public function classDatabase()
+    public function closeDatabase()
     {
         mysqli_close($this->conn);
     }

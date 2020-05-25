@@ -10,6 +10,8 @@ class User implements Crud, Authenticator
     private $city_name;
     private $username;
     private $password;
+    private $utc_timestamp;
+    private $offset;
 
     public function __construct()
     {
@@ -32,7 +34,7 @@ class User implements Crud, Authenticator
         $this->username = $username;
         $this->password = $password;
     }
-    public function __construct5($first_name, $last_name, $city_name, $username, $password)
+    public function __construct7($first_name, $last_name, $city_name, $username, $password,$utc_timestamp, $offset)
     {
         print('conts5 called');
         $this->first_name = $first_name;
@@ -40,14 +42,16 @@ class User implements Crud, Authenticator
         $this->city_name = $city_name;
         $this->username = $username;
         $this->password = $password;
+        $this->utc_timestamp=$utc_timestamp;
+        $this->offset=$offset;
 
     }
 
-    public static function create($username, $password)
-    {
-        $instance = new self($username, $password);
-        return $instance;
-    }
+    // public static function create($username, $password)
+    // {
+    //     $instance = new self($username, $password);
+    //     return $instance;
+    // }
     public function setUsername($username)
     {
         $this->username = $username;
@@ -73,6 +77,22 @@ class User implements Crud, Authenticator
     public function getUserId()
     {
         return $this->$user_id;
+    }
+     public function setUtc_timestamp($utc_timestamp)
+    {
+        $this->utc_timestamp = $utc_timestamp;
+    }
+    public function getUtc_timestamp()
+    {
+        return $this->$utc_timestamp;
+    }
+     public function setOffset($offset)
+    {
+        $this->offset = $offset;
+    }
+    public function getOffset()
+    {
+        return $this->$offset;
     }
     public function hashPassword()
     {
@@ -118,13 +138,15 @@ class User implements Crud, Authenticator
         $ln = $this->last_name;
         $city = $this->city_name;
         $username = $this->username;
+        $offset=$this->offset;
+        $utc_timestamp=$this->utc_timestamp;
         $this->hashPassword();
         $pass = $this->password;
         if (empty($fn) || empty($ln) || empty($city) || empty($pass) || empty($username)) {
             echo '<b>missing details, please fill in all the details to proceed </b>';
         }
 
-        $sql = "INSERT INTO `user`(first_name,last_name,user_city,username,password) VALUES('$fn','$ln','$city','$username','$pass')";
+        $sql = "INSERT INTO `user`(first_name,last_name,user_city,username,password,utcTimeStamp,offset) VALUES('$fn','$ln','$city','$username','$pass','$utc_timestamp','$offset')";
         $res = mysqli_query($con, $sql) or die("Error" . mysqli_error($con));
         return $res;
 
